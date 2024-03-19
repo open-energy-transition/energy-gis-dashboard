@@ -192,7 +192,7 @@ atlite:
   nprocesses: 4
   cutouts:
     # geographical bounds automatically determined from countries input
-    co-2013-era5:
+    cutout-2013-era5:
       module: era5
       dx: 0.3  # cutout resolution
       dy: 0.3  # cutout resolution
@@ -205,7 +205,7 @@ atlite:
 
 renewable:
   onwind:
-    cutout: co-2013-era5
+    cutout: cutout-2013-era5
     resource:
       method: wind
       turbine: Vestas_V112_3MW
@@ -232,7 +232,7 @@ renewable:
     clip_p_max_pu: 1.e-2
     extendable: true
   offwind-ac:
-    cutout: co-2013-era5
+    cutout: cutout-2013-era5
     resource:
       method: wind
       turbine: NREL_ReferenceTurbine_5MW_offshore
@@ -250,7 +250,7 @@ renewable:
     clip_p_max_pu: 1.e-2
     extendable: true
   offwind-dc:
-    cutout: co-2013-era5
+    cutout: cutout-2013-era5
     resource:
       method: wind
       turbine: NREL_ReferenceTurbine_5MW_offshore
@@ -269,7 +269,7 @@ renewable:
     clip_p_max_pu: 1.e-2
     extendable: true
   solar:
-    cutout: co-2013-era5
+    cutout: cutout-2013-era5
     resource:
       method: pv
       panel: CSi
@@ -290,7 +290,7 @@ renewable:
     clip_p_max_pu: 1.e-2
     extendable: true
   hydro:
-    cutout: co-2013-era5
+    cutout: cutout-2013-era5
     hydrobasins_level: 6
     resource:
       method: hydro
