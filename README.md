@@ -2,7 +2,7 @@
 
 ## Project Description
 
-The PyPSA-Earth Dashboard offers an interactive mapping and data visualization platform for energy systems analysis. Specifically personalized to examine Nigeria's electrical grid, this tool implements technologies such as OpenLayers, Django, and PostGIS to visualize the network architecture and optimize installed capacity.
+The PyPSA-Earth Dashboard offers an interactive mapping and data visualization platform for energy systems analysis. Specifically personalized to examine Nigeria's electrical grid, this tool implements technologies such as OpenLayers, Django, and PostGIS to visualize the network architecture and optimized installed capacity.
 
 ## Features
 
