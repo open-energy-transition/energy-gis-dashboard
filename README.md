@@ -23,7 +23,7 @@ To run this project, ensure you have the following installed:
 
 1. **Fork and clone the Repository [link](https://github.com/open-energy-transition/energy-gis-dashboard.git):**
    ```bash
-   git clone https://github.com/your-user/energy-gis-dashboard.git
+   e.g., git clone https://github.com/your-user/energy-gis-dashboard.git
    cd PyPSAEarthDashboard
 
 2. **Create and Activate the Conda Environment:**
