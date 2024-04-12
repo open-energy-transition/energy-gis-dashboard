@@ -72,11 +72,8 @@
               <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                 {% comment %} Navigation links and logo {% endcomment %}
                 <a class="navbar-brand" href="#">Dashboard</a>
-                <h8 class="navbar-brand" href="#">Beta Version</h8>
                 {% comment %} <a class="navbar-brand" href="https://pypsa-meets-earth.github.io/"><img src="{% static 'img/pypsa_earth.png' %}" alt="Logo" style="height: 45px; margin-left:5px;"></a> {% endcomment %}
                   
-                
-                
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   {% comment %} <li id="toggle-left-sidebar" class="nav-item nav-link"><i class="fas fa-layer-group">Home</i></a></li> {% endcomment %}
                   <li class="nav-item"><a class="nav-link" href="https://pypsa-meets-earth.github.io/" title="PyPSA-Earth" target="_blank"><img src="{% static 'img/pypsa_earth.png' %}" alt="Logo" style="height: 45px; margin-left:5px;"></a></a></li>
@@ -107,7 +104,7 @@
     {% comment %} Sidebars and Map area {% endcomment %}
     <div class="d-flex">
       {% comment %} Left-Sidebar {% endcomment %}
-      <div id="left-sidebar" class="sidebar bg-light">
+      <div id="left-sidebar" class="sidebar bg-light d-flex flex-column">
         <h5>Geographic Layers</h5>
         <div id="layer-controls">
           {% comment %} Toggle Switch for Africa Shape {% endcomment %}
@@ -245,14 +242,36 @@
       {% comment %} Map {% endcomment %}
       <div class="flex-grow-1">
         <div id="js-map" class="map"></div>
-          <div id="mouse-position" class="ol-mouse-position" style="pointer-events: auto;"></div>
-          {% comment %} control buttons {% endcomment %}
-          <button id="btn-toggle-right-sidebar" class="nav-item nav-link" title="Network Statistics"><i class="fas fa-chart-bar"></i></button>
-          <button id="btn-toggle-left-sidebar" class="nav-item nav-link"title="Geographic Layers"><i class="fas fa-layer-group"></i></button>
+          {% comment %} <div id="mouse-position" class="ol-mouse-position" style="pointer-events: auto;"></div> {% endcomment %}
         </div>
       </div>
   </div>
 </div>
+
+<!-- Fixed sidebar tools -->
+<div id="tool-sidebar" class="sidebar-tool bg-light">
+  <!-- Network Statistics Icon -->
+  <button id="btn-toggle-right-sidebar" class="btn btn-secondary nav-item nav-link" title="Network Statistics">
+    <i class="fas fa-chart-bar"></i>
+  </button>
+  <!-- Geographic Layers Icon -->
+  <button id="btn-toggle-left-sidebar" class="btn btn-secondary nav-item nav-link" title="Geographic Layers">
+    <i class="fas fa-layer-group"></i>
+  </button> 
+  {% comment %} <!-- Scenarios Icon -->
+  <button id="btn-toggle-scenarios" class="btn btn-secondary nav-item nav-link" title="Scenarios">
+    <i class="fas fa-project-diagram"></i>
+  </button>
+
+  <!-- NetZero Icon -->
+  <button id="btn-toggle-netzero" class="btn btn-secondary nav-item nav-link" title="NetZero Emissions">
+    <i class="fas fa-globe"></i>
+  </button> {% endcomment %}
+
+  <!-- ... space for other icons ... -->
+</div>
+
+
 {% comment %} Scritps {% endcomment %}
 <script src="{% static './Libs/dist/ol.js' %}"></script>
 {% comment %} <script src="{% static 'main.js' %}"></script>   {% endcomment %}
@@ -270,6 +289,10 @@
         <a class="foot-item" href="https://www.hft-stuttgart.com/geomatics/master-photogrammetry-and-geoinformatics" target="_blank" rel="noopener noreferrer">Master's Thesis, M.Sc. Photogrammetry and Geoinformatics</a>
         <p> | </p>
         <a class="foot-item" href="https://www.hft-stuttgart.com/" target="_blank" rel="noopener noreferrer">Hochschule für Technik Stuttgart</a>
+        <p> | </p>
+        <p>
+          This project is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GNU General Public License v3.0</a>.
+        </p>
       </div>
     </div>
   </div>
