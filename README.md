@@ -90,7 +90,6 @@ This project was financed by the program ["Junge Innovatoren (JI)"](https://www.
       <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/c771930a-36ff-40c8-aff1-f99634cffa12" alt="oet-logo-red-n-subtitle" height="100">
       </a>
 </p>
-![oet-logo-red-n-subtitle]()
 
 ## License
 
