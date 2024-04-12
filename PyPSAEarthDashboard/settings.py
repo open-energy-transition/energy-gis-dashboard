@@ -21,10 +21,17 @@ import environ
 environ.Env.read_env() 
 env = environ.Env()
 
+# if os.name == 'nt':
+#     VENV_BASE = os.environ['VIRTUAL_ENV']
+#     os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
+#     os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
+
 if os.name == 'nt':
-    VENV_BASE = os.environ['VIRTUAL_ENV']
-    os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
-    os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
+    VENV_BASE = os.environ.get('VIRTUAL_ENV')  # Usa get() para evitar KeyError
+    if VENV_BASE:  # Continuar solo si VENV_BASE no es None
+        gdal_path = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo')
+        os.environ['PATH'] = gdal_path + ';' + os.environ['PATH']
+        os.environ['PROJ_LIB'] = os.path.join(gdal_path, 'data\\proj') + ';' + os.environ['PATH']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,13 +46,14 @@ env.read_env(str(env_file))
 
 # # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
-# # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
 # Application definition
+
+GDAL_LIBRARY_PATH = r'C:\Users\ramir\miniconda3\Library\bin\gdal.dll'
 
 INSTALLED_APPS = [
     'django.contrib.admin',

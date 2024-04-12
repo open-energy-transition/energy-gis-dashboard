@@ -24,9 +24,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: calc(
-    100vh - 0px - 100px
-  ); 
+  height: calc(100vh - 0px - 100px);
 }
 
 .flex-grow-1 {
@@ -34,13 +32,23 @@ body {
 }
 
 #js-map {
-  position: relative;
-  z-index: 100;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  height: calc(100vh - 93px);
   margin: 0px;
-  width: 100%;
-  height: calc(100vh - 75px - 18px); /* Subtract the height of the header and footer*/
+  margin-left: 40px;
+  padding-bottom: 0;
+  position: relative;
+  width: calc(100% - 40px);
+  z-index: 100;
+}
+
+/* Ajuste cuando el sidebar izquierdo está abierto */
+.body-with-left-sidebar #js-map {
+  margin-left: 250px; /* Desplaza el mapa para hacer espacio al sidebar izquierdo */
+}
+
+/* Ajuste cuando el sidebar derecho está abierto */
+.body-with-right-sidebar #js-map {
+  margin-right: 250px; /* Desplaza el mapa para hacer espacio al sidebar derecho */
 }
 
 nav.navbar.navbar-expand.d-lg.bg-body-tertiary {
@@ -50,8 +58,8 @@ nav.navbar.navbar-expand.d-lg.bg-body-tertiary {
 /* Styles for icons within the map */
 .map-icon {
   position: absolute;
-  z-index: 10; 
-  background-color: white; 
+  z-index: 10;
+  background-color: white;
   padding: 5px;
   border-radius: 5px;
 }
@@ -60,10 +68,9 @@ nav.navbar.navbar-expand.d-lg.bg-body-tertiary {
   padding-left: 0;
   padding-right: 0;
   flex: 1;
-  padding-top: 1px; 
+  padding-top: 1px;
   z-index: 0;
 }
-
 
 .ol-control {
   position: absolute;
@@ -71,16 +78,21 @@ nav.navbar.navbar-expand.d-lg.bg-body-tertiary {
 }
 
 #ol-canvas {
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
 }
 
-.ol-mouse-position > .ol-mouse-position{
-  position: absolute;  /* absolute #mouse-position > */
+.ol-mouse-position > .ol-mouse-position {
+  position: absolute; /* absolute #mouse-position > */
   top: 91.5vh; /* Ajusta la posición desde la parte superior del contenedor del mapa */
   right: 0vh; /* Ajusta la posición desde el lado izquierdo del contenedor del mapa */
   z-index: 102; /* Asegúrate de que esté por encima de las capas del mapa */
-  background-color: rgba(255,255,255,0.7); /* Fondo semi-transparente para mejor visibilidad */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Fondo semi-transparente para mejor visibilidad */
   padding: 3px; /* Espaciado interior para que no se vea apretado */
   border-radius: 2px; /* Bordes redondeados */
   font-size: 0.4rem; /* Ajusta el tamaño del texto según sea necesario */
@@ -107,7 +119,7 @@ header {
   position: fixed;
   top: 0; /* Alinea en la parte superior de la ventana */
   background-color: #f8f9fa; /* Color de fondo, ajusta según tu diseño */
-  z-index: 10; /* Asegura que el encabezado esté sobre otros elementos */
+  z-index: 100; /* Asegura que el encabezado esté sobre otros elementos */
 }
 
 #navbar_whole {
@@ -226,7 +238,7 @@ p {
 }
 
 #left-sidebar {
-  left: 0;
+  left: 40px;
   width: 250px;
   margin-left: -250px; /* Sale desde la izquierda */
   z-index: 102;
@@ -330,62 +342,50 @@ details {
   margin-left: 10px;
 }
 
-/* Ajustes adicionales según sea necesario... */
 #btn-toggle-left-sidebar,
-#btn-toggle-right-sidebar {
-  position: absolute;
-  z-index: 102; /* Asegúrate de que estén sobre el mapa */
-  background-color: #ffffff; /* Fondo para visibilidad */
-  border: 3px solid #ccc; /* Elimina los bordes predeterminados */
-  padding: 6px; /* Espaciado interior para tamaño de clic */
-  border-radius: 4px; /* Bordes redondeados */
+#btn-toggle-right-sidebar,
+#btn-toggle-scenarios,
+#btn-toggle-netzero {
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Sin bordes */
+  padding: 10px; /* Espaciado interior para tamaño de clic */
   cursor: pointer; /* Cambia el cursor al pasar el ratón sobre el botón */
-  width: 33x; /* Ancho del botón */
-  height: 33px; /* Alto del botón */
   display: flex; /* Permite el uso de Flexbox */
   justify-content: center; /* Centra el contenido horizontalmente */
   align-items: center; /* Centra el contenido verticalmente */
-  font-size: 16px; /* Tamaño del texto */
-  color: #666666;
+  font-size: 21px; /* Tamaño del texto */
+  color: #333; /* Color inicial de los íconos */
 }
 
-#btn-toggle-left-sidebar {
-  top: 180px;
-  right: 0px;
-}
-
-#btn-toggle-right-sidebar {
-  top: 135px;
-  right: 0px;
-}
-
-#btn-toggle-left-sidebar:hover,
-#btn-toggle-right-sidebar:hover {
-  background-color: #4872a5; /* Un azul claro para el fondo */
-  border: 3px solid rgb(240 239 237, 0.7);
-  transform: scale(1.05);
+#btn-toggle-left-sidebar i,
+#btn-toggle-right-sidebar i,
+#btn-toggle-scenarios i,
+#btn-toggle-netzero i {
+  transition: color 0.3s; /* Transición suave al cambiar de color */
 }
 
 #btn-toggle-left-sidebar:hover i,
-#btn-toggle-right-sidebar:hover i {
-  color: #343537; /* Un azul más estándar para el icono */
+#btn-toggle-right-sidebar:hover i,
+#btn-toggle-scenarios:hover i,
+#btn-toggle-netzero:hover i {
+  color: #007bff; /* Color al hacer hover, solo cambia el color del icono */
 }
 
 #btn-toggle-left-sidebar.move-right {
   right: calc(
-    0px + 500px
+    0px + 0px
   ); /* Desplaza el botón a la derecha en función del ancho del sidebar izquierdo */
 }
 
 #btn-toggle-right-sidebar.move-left {
   right: calc(
-    0px + 500px
+    0px + 0px
   ); /* Desplaza el botón a la derecha en función del ancho del sidebar derecho */
 }
 
-.move-right-mouse-position {
-  right: calc(500px); /* Ajusta este valor según el ancho de tu sidebar */
-}
+/* .move-right-mouse-position {
+  right: calc(500px); Ajusta este valor según el ancho de tu sidebar 
+} */
 
 .ol-popup {
   background-color: white;
@@ -437,7 +437,6 @@ details {
   min-height: 400px;
 }
 
-
 #nominal-generator-capacity-chart-container {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
@@ -479,7 +478,7 @@ details {
 }
 
 #nominal-storage-capacity-chart {
-  height:400px;
+  height: 400px;
   z-index: 1000;
   min-height: 400px;
 }
@@ -488,7 +487,7 @@ details {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
-  height:400px; /* Altura del contenedor */
+  height: 400px; /* Altura del contenedor */
   z-index: 1000;
   min-height: 400px;
 }
@@ -514,9 +513,8 @@ details {
   min-height: 400px;
 }
 
-.layer-toggle{
+.layer-toggle {
   font-size: 18px;
-  
 }
 
 .layer-toggle .fa-download {
@@ -524,7 +522,6 @@ details {
   margin-left: 5px;
   color: #343537;
   font-size: 10px;
-
 }
 
 .layer-toggle .fa-download:hover {
@@ -533,4 +530,32 @@ details {
 
 .navbar-toggler {
   margin-left: 10px;
+}
+
+.sidebar-tool {
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+  margin-top: 0px;
+  margin-bottom: 0px;
+  position: fixed;
+  left: 0;
+  top: 75px;
+  bottom: 18px;
+  width: 40px; /* Ajusta según el ancho deseado */
+  background-color: #f8f9fa; /* Ajusta el color de fondo según tu diseño */
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px; /* Ajusta para no superponerse con la barra de navegación */
+  overflow-x: hidden;
+  overflow-y: auto; /* Permite scroll si es necesario */
+}
+
+#btn-toggle-left-sidebar,
+#btn-toggle-right-sidebar,
+#btn-toggle-scenarios,
+#btn-toggle-netzero {
+  margin-top: 10px; /* Espaciado desde el inicio de la barra */
+  margin-bottom: 10px; /* Espaciado entre botones */
+  margin-left: 5px;
 }

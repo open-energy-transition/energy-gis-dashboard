@@ -41,11 +41,11 @@ async function init() {
 
   // Map control definitions
   const fullScreenControl = new ol.control.FullScreen();
-  const mousePositionControl = new ol.control.MousePosition({
-    className: "ol-mouse-position",
-    target: document.getElementById("mouse-position"),
-    undefinedHTML: "Coordinates: N/A",
-  });
+  // const mousePositionControl = new ol.control.MousePosition({
+  //   className: "ol-mouse-position",
+  //   target: document.getElementById("mouse-position"),
+  //   undefinedHTML: "Coordinates: N/A",
+  // });
   const overViewMapControl = new ol.control.OverviewMap({
     collapsed: false,
     layers: [
@@ -83,7 +83,7 @@ async function init() {
       .defaults()
       .extend([
         fullScreenControl,
-        mousePositionControl,
+        // mousePositionControl,
         overViewMapControl,
         scaleLineControl,
         zoomSliderControl,
@@ -491,6 +491,18 @@ async function init() {
     condition: ol.events.condition.altKeyOnly,
   });
   map.addInteraction(dragRotateInteraction);
+
+  //*****************************************************************************
+  //*****************************************************************************
+  // url coordinates handling
+  //*****************************************************************************
+  //*****************************************************************************
+  if (map) {
+    map.on('moveend', updateUrlWithCurrentView);
+    map.on('singleclick', updateUrlWithCurrentView);
+  } else {
+    console.error('El objeto "map" no está definido.');
+  }
 }
 
 
@@ -623,7 +635,7 @@ const countryZoomLevels = {
   Brazil: 5,
   Canada: 4,
   Chile: 5,
-  Colombia: 5,
+  Colombia: 5.74,
   "Costa Rica": 8,
   Cuba: 7,
   Dominica: 10,
@@ -688,7 +700,7 @@ const countryZoomLevels = {
   Mozambique: 6,
   Namibia: 6,
   Niger: 6,
-  Nigeria: 5.5,
+  Nigeria: 6.11,
   Rwanda: 9,
   "Sao Tome and Principe": 10,
   Senegal: 7,
@@ -938,8 +950,8 @@ const generatorColors = {
   "DC link": "#8a1caf",
   "load": "#FF0000",
 
-  "Nominal Capacity": "#614051", // Azul Cobalto
-  "Optimal Capacity": "#007474", // Verde Esmeralda
+  "Nominal Capacity": "#7ec8e3", // Azul Cobalto
+  "Optimal Capacity": "#a4d65e", // Verde Esmeralda
 };
 
 // Initialize and configure charts with dynamic data using chart.js
@@ -1402,13 +1414,13 @@ function createDualDatasets(sNomData, sNomOptData) {
   const sNomDataset = {
     label: "Nom. Capacity",
     data: lines.map((line) => sNomData[line]),
-    backgroundColor: "#614051", // Color azul
+    backgroundColor: "#7ec8e3", // Color azul
   };
 
   const sNomOptDataset = {
     label: "Opt. Capacity",
     data: lines.map((line) => sNomOptData[line]),
-    backgroundColor: "#007474", // Color verde
+    backgroundColor: "#a4d65e", // Color verde
   };
 
   return {
@@ -1425,3 +1437,33 @@ document.addEventListener("DOMContentLoaded", function () {
   loadOptimalStorageCapacityData();
   loadLineData();
 });
+
+function updateUrlWithCurrentView() {
+  const view = map.getView();
+  const center = ol.proj.toLonLat(view.getCenter());
+  const zoom = view.getZoom();
+  const queryParams = new URLSearchParams(window.location.search);
+  
+  // Update or set new query parameters
+  queryParams.set('lat', center[1].toFixed(5)); // Latitude, fixed to 5 decimal places
+  queryParams.set('lon', center[0].toFixed(5)); // Longitude, fixed to 5 decimal places
+  queryParams.set('zoom', zoom.toFixed(2)); // Zoom level, fixed to 2 decimal places
+  
+  // Update the URL without reloading the page
+  window.history.pushState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
+}
+
+// Apply URL parameters on page load to set map view
+document.addEventListener("DOMContentLoaded", function() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const lat = parseFloat(queryParams.get('lat'));
+  const lon = parseFloat(queryParams.get('lon'));
+  const zoom = parseFloat(queryParams.get('zoom'));
+  
+  if (!isNaN(lat) && !isNaN(lon) && !isNaN(zoom)) {
+    map.getView().setCenter(ol.proj.fromLonLat([lon, lat]));
+    map.getView().setZoom(zoom);
+  }
+});
+
+

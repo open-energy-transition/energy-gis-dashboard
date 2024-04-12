@@ -3,7 +3,7 @@ import glob
 import zipfile
 from sqlalchemy import *
 from geo.Geoserver import Geoserver
-from pg.pg import Pg
+# from pg.pg import Pg
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry
 from django.db.models import JSONField 
@@ -22,16 +22,20 @@ from django.db import models
 
 import logging
 
+from environ import Env
+env = Env()
+env.read_env() 
+
+GEOSERVER_URL = env("GEOSERVER_URL")
+GEOSERVER_USER = env("GEOSERVER_USER")
+GEOSERVER_PASS = env("GEOSERVER_PASS")
+DATABASE_URL = env("DATABASE_URL")
+
 logger = logging.getLogger(__name__)
 
-# initializing the library
-db = Pg(dbname='PyPSAEarthDashboard', user='postgres',
-        password='1234', host='localhost', port='5432')
+geo = Catalog(GEOSERVER_URL, username=GEOSERVER_USER, password=GEOSERVER_PASS)
+conn_str = DATABASE_URL
 
-geo = Catalog("http://localhost:8080/geoserver",
-              username="admin", password="@TtUuEL6393s2Lw")
-
-conn_str = 'postgresql://postgres:1234@localhost:5432/PyPSAEarthDashboard'
 
 # Create your models here.
 
@@ -84,7 +88,7 @@ def publish_data(sender, instance, created, **kwargs):
         
         # Publish the GeoJSON data to GeoServer using the GeoServer REST client.
         # Ensure proper configuration of store, workspace, and database details.
-        geo.create_featurestore(store_name='PyPSAEarthDashboard', 
+        geo.create_featurestore(name='PyPSAEarthDashboard', 
                                 workspace='PyPSAEarthDashboard', 
                                 db='PyPSAEarthDashboard', host='localhost', 
                                 pg_user='postgres', pg_password='1234', 
