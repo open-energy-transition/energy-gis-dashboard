@@ -78,12 +78,14 @@ This project was financed by the program ["Junge Innovatoren (JI)"](https://www.
 
 <p align="center">
   <a href="https://kit.edu/" target="_blank">
-    <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/3bbe4241-4f39-47bb-bf9b-72e7076cf5a8" target="_blank alt="junge-innovatoren_4c" height="100">
+    <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/3bbe4241-4f39-47bb-bf9b-72e7076cf5a8" alt="junge-innovatoren_4c" height="100">
   </a>
-  <a href="https://openenergytransition.org/" target="_blank">
-    <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/6f70ed80-eaf3-4e5e-b8ed-71b4b90bc8ad" target="_blank alt="bw100_gr_4c_mwk" height="100">
+  <a href="https://www.baden-wuerttemberg.de/de/startseite/" target="_blank">
+    <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/6f70ed80-eaf3-4e5e-b8ed-71b4b90bc8ad" alt="bw100_gr_4c_mwk" height="100">
   </a>
-   <img src="ttps://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/63a91160-fab1-41ae-9d60-fb32d805abc7" target="_blank alt="oet-logo-red-n-subtitle" height="100">
+   <a href="https://openenergytransition.org/" target="_blank">
+      <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/63a91160-fab1-41ae-9d60-fb32d805abc7" alt="oet-logo-red-n-subtitle" height="100">
+      </a>
 </p>
 
 ## License
