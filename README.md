@@ -77,16 +77,20 @@ Would you be interested in contributing? Great! You can contribute by forking th
 This project was financed by the program ["Junge Innovatoren (JI)"](https://www.junge-innovatoren.de/) of the Federal State of Baden-Württemberg and developed in collaboration with the Karlsruhe Institute of Technology (KIT) [Karlsruhe Institute of Technology (KIT)](https://kit.edu/), [Open Energy Transition (OET)](https://openenergytransition.org/), and [Stuttgart University of Applied Sciences](https://www.hft-stuttgart.com/).
 
 <p align="center">
-  <a href="https://kit.edu/" target="_blank">
+  <a href="https://www.junge-innovatoren.de/" target="_blank">
     <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/3bbe4241-4f39-47bb-bf9b-72e7076cf5a8" alt="junge-innovatoren_4c" height="100">
   </a>
   <a href="https://www.baden-wuerttemberg.de/de/startseite/" target="_blank">
     <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/6f70ed80-eaf3-4e5e-b8ed-71b4b90bc8ad" alt="bw100_gr_4c_mwk" height="100">
   </a>
+   <a href="https://www.kit.edu/" target="_blank">
+      <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/07e651ad-14fd-4611-b56a-a724346a1323" alt="kit-logo-color" height="100">
+      </a>
    <a href="https://openenergytransition.org/" target="_blank">
-      <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/63a91160-fab1-41ae-9d60-fb32d805abc7" alt="oet-logo-red-n-subtitle" height="100">
+      <img src="https://github.com/open-energy-transition/energy-gis-dashboard/assets/42655811/c771930a-36ff-40c8-aff1-f99634cffa12" alt="oet-logo-red-n-subtitle" height="100">
       </a>
 </p>
+![oet-logo-red-n-subtitle]()
 
 ## License
 
