@@ -93,8 +93,7 @@ This project was financed by the program ["Junge Innovatoren (JI)"](https://www.
 
 ## License
 
-This project is open-source under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). The LICENSE file in this repository provides more details.
-
+This project is open-source under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html). The LICENSE folder in this repository provides more details.
 
 ## Contact
 
