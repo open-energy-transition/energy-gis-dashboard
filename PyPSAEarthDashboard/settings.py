@@ -44,7 +44,6 @@ env.read_env(str(env_file))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 # DEBUG = True
 DEBUG = env.bool('DEBUG', default=False)

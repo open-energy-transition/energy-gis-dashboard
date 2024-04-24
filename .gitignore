@@ -52,8 +52,8 @@ node_modules/
 /media/
 
 # Specific project files
-main.js
-style.css
+PyPSAEarthDashboard/static/main.js
+PyPSAEarthDashboard/static/style.css
 
 # Logs
 *.log
