@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2024 Bryan Ramirez <bryan.ramirez@openenergytransition.org>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+
 import os
 import glob
 import zipfile
@@ -47,7 +52,6 @@ class Bus(models.Model):
   name = models.CharField(max_length=100, default="Buses_geojson_data")
   geojson_file = models.FileField(upload_to='geojson_files/', 
                                   null=True, blank=True)  # Field to load GeoJSON files
-#   json_file = models.FileField(upload_to='json_files/', null=True, blank=True)  # field to load JSON files
   uploaded_time = models.DateTimeField(default=datetime.datetime.now)  # load date 
   geometry = gis_models.GeometryField(srid=4326, db_index=True, null=True, blank=True)
 
@@ -67,14 +71,10 @@ def publish_data(sender, instance, created, **kwargs):
   try:
     # Process GeoJSON file if available for the new Bus instance.
     if instance.geojson_file:
-      # Load GeoJSON from the file into a GeoDataFrame for spatial operations.
-      gdf = gpd.read_file(instance.geojson_file.path)
+      gdf = gpd.read_file(instance.geojson_file.path) # Load GeoJSON from the file into a GeoDataFrame for spatial operations.
     
-      
-      # Ensure the GeoDataFrame is not empty and contains valid geometries.
       if not gdf.empty and 'geometry' in gdf and not gdf['geometry'].is_empty.all():
-        # Establish Database connection
-        engine = create_engine(conn_str, echo=True)
+        engine = create_engine(conn_str, echo=True) # Establish Database connection
               
         # Convert geometries to WKT format and load them into PostGIS, using 'geom' as the geometry column name.
         gdf['geom'] = gdf['geometry'].apply(lambda x: x.wkt)
@@ -88,14 +88,15 @@ def publish_data(sender, instance, created, **kwargs):
         
         # Publish the GeoJSON data to GeoServer using the GeoServer REST client.
         # Ensure proper configuration of store, workspace, and database details.
-        geo.create_featurestore(name='PyPSAEarthDashboard', 
-                                workspace='PyPSAEarthDashboard', 
-                                db='PyPSAEarthDashboard', host='localhost', 
-                                pg_user='postgres', pg_password='1234', 
-                                schema='public')
-        geo.publish_featurestore(workspace='PyPSAEarthDashboard', 
-                                store_name='PyPSAEarthDashboard', 
-                                pg_table=instance.name)
+        GEOSERVER_URL = env("GEOSERVER_URL")
+        GEOSERVER_USER = env("GEOSERVER_USER")
+        GEOSERVER_PASS = env("GEOSERVER_PASS")
+        geo = Catalog(GEOSERVER_URL, username=GEOSERVER_USER, password=GEOSERVER_PASS)
+        geo.create_featurestore(name='PyPSAEarthDashboard', workspace='PyPSAEarthDashboard', 
+                                        db='PyPSAEarthDashboard', host='localhost', 
+                                        pg_user='postgres', pg_password='1234', schema='public')
+        geo.publish_featurestore(workspace='PyPSAEarthDashboard', store_name='PyPSAEarthDashboard',
+                                         pg_table=instance.name)
 
             
   except Exception as e:
@@ -109,6 +110,7 @@ def publish_data(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Bus)
 def delete_data(sender, instance, **kwargs):
+    DATABASE_URL = env("DATABASE_URL") ##
     engine = create_engine(conn_str)
     try:
         geojson_table_name = f"geojson_{instance.name}"
