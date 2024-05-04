@@ -42,13 +42,35 @@ Make sure your Redis server is running, as it handles caching and session manage
     ```
     
 4. **Database Setup:**
-Adjust the `.env` file with your database and Redis connection settings.
-    
-    ```bash
-    python manage.py migrate
-    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql`. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
 
-    ```
+    1. Create the Database (if not already created):
+       Open pgAdmin and connect to your PostgreSQL server.
+       Right-click on 'Databases', then select 'Create' -> 'Database'.
+       Name the database `PyPSAEarthDashboard` and configure any additional settings as needed.
+       Click 'Save' to create the database.
+
+    2. Restore the Database:
+       A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql` in the `database` folder. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
+       - Open pgAdmin and connect to your PostgreSQL server.
+       - Right-click on your newly created database (`PyPSAEarthDashboard`) and select 'Restore'.
+       - Navigate to the `database` folder, select the `PyPSAEarthDashboard.sql` file, and proceed with the restore.
+
+    3. Apply Database Migrations:
+       Adjust the `.env` file with your database and Redis connection settings if necessary.
+       ```bash
+       python manage.py migrate
+       ```
+
+    4. Create New Migrations (if necessary):
+       If you have made changes to the database models since the last migration, navigate to the application folder and run the following command to apply migrations:
+       ```bash
+       python manage.py makemigrations
+       ```
+       Apply the new migrations:
+       ```bash
+       python manage.py migrate
+       ```
+
     
 
 ## Usage
