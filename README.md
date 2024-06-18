@@ -46,7 +46,7 @@ Adjust the `.env` file with your database and Redis connection settings.
     
     ```bash
     python manage.py migrate
-    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql`. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
+    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql.` This file can easily restore the database using pgAdmin, a popular database management tool for PostgreSQL. Make sure to have the POstGIS extension created as `CREATE EXTENSION postgis;`
 
     ```
     
@@ -61,7 +61,7 @@ To use the dashboard:
     python manage.py runserver
     ```
     
-    This command starts a local web server. Access the dashboard by navigating to `http://localhost:8000` in your web browser.
+    This command starts a local web server. To access the dashboard, navigate to `http://localhost:8000` in your web browser.
     
 2. **Explore the Dashboard:**
     - Utilize the layer controls in the sidebar to toggle different data layers.
