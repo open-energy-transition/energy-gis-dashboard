@@ -8,7 +8,6 @@ import glob
 import zipfile
 from sqlalchemy import *
 from geo.Geoserver import Geoserver
-# from pg.pg import Pg
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry
 from django.db.models import JSONField 
@@ -28,6 +27,9 @@ from django.db import models
 import logging
 
 from environ import Env
+from urllib.parse import urlparse
+
+
 env = Env()
 env.read_env() 
 
@@ -36,13 +38,17 @@ GEOSERVER_USER = env("GEOSERVER_USER")
 GEOSERVER_PASS = env("GEOSERVER_PASS")
 DATABASE_URL = env("DATABASE_URL")
 
+db_url = urlparse(DATABASE_URL)
+db_name = db_url.path[1:]  
+db_host = db_url.hostname
+db_port = db_url.port or 5432 
+db_user = db_url.username
+db_password = db_url.password
+
 logger = logging.getLogger(__name__)
 
 geo = Catalog(GEOSERVER_URL, username=GEOSERVER_USER, password=GEOSERVER_PASS)
 conn_str = DATABASE_URL
-
-
-# Create your models here.
 
 #########################################################################################
 # Django model for geojson files
@@ -87,20 +93,24 @@ def publish_data(sender, instance, created, **kwargs):
 
         
         # Publish the GeoJSON data to GeoServer using the GeoServer REST client.
-        # Ensure proper configuration of store, workspace, and database details.
         GEOSERVER_URL = env("GEOSERVER_URL")
         GEOSERVER_USER = env("GEOSERVER_USER")
         GEOSERVER_PASS = env("GEOSERVER_PASS")
         geo = Catalog(GEOSERVER_URL, username=GEOSERVER_USER, password=GEOSERVER_PASS)
-        geo.create_featurestore(name='PyPSAEarthDashboard', workspace='PyPSAEarthDashboard', 
-                                        db='PyPSAEarthDashboard', host='localhost', 
-                                        pg_user='postgres', pg_password='1234', schema='public')
+        geo.create_featurestore(
+            name='PyPSAEarthDashboard', 
+            workspace='PyPSAEarthDashboard', 
+            db=db_name, 
+            host=f'{db_host}:{db_port}', 
+            pg_user=db_user, 
+            pg_password=db_password, 
+            schema='public'
+        )
         geo.publish_featurestore(workspace='PyPSAEarthDashboard', store_name='PyPSAEarthDashboard',
                                          pg_table=instance.name)
 
             
   except Exception as e:
-    # print(f"There is a problem during file processing: {e}")
     logger.error(f"Error processing file: {e}", exc_info=True)
 
 

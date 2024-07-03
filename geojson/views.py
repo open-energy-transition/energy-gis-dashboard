@@ -4,8 +4,8 @@
 #
 
 from django.shortcuts import render
+from django.conf import settings 
 from django.http import JsonResponse
-from django.shortcuts import render
 from .models import (
   Lines,
   NominalGeneratorCapacity,
@@ -14,9 +14,13 @@ from .models import (
   OptimalStorageCapacity
 )
 
-# Create your views here.
+# Views are here.
 def index(request):
-  return render(request, 'index.html')
+    context = {
+        'geoserver_url': settings.GEOSERVER_URL,
+        'geoserver_workspace': settings.GEOSERVER_WORKSPACE,
+    }
+    return render(request, 'index.html', context)
 
 def nominal_generator_capacity_json(request):
     capacities = NominalGeneratorCapacity.objects.all().values(

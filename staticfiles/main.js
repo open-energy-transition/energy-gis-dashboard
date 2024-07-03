@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 //*****************************************************************************
 //*****************************************************************************
 // Global variables
@@ -41,17 +40,12 @@ async function init() {
   lineLabelElement.style.fontSize = "0.7rem";
   lineLabelElement.style.whiteSpace = "nowrap";
   lineLabelElement.style.fontWeight = "bold";
-  lineLabelElement.style.display = "none"; 
+  lineLabelElement.style.display = "none";
 
   document.getElementById("js-map").appendChild(lineLabelElement);
 
   // Map control definitions
   const fullScreenControl = new ol.control.FullScreen();
-  // const mousePositionControl = new ol.control.MousePosition({
-  //   className: "ol-mouse-position",
-  //   target: document.getElementById("mouse-position"),
-  //   undefinedHTML: "Coordinates: N/A",
-  // });
   const overViewMapControl = new ol.control.OverviewMap({
     collapsed: false,
     layers: [
@@ -85,18 +79,16 @@ async function init() {
     ],
     target: "js-map", // The HTML element where the map will be displayed
     keyboardEventTarget: document,
-    controls: ol.control.defaults
-      .defaults()
-      .extend([
-        fullScreenControl,
-        // mousePositionControl,
-        overViewMapControl,
-        scaleLineControl,
-        zoomSliderControl,
-        zoomToExtentControl,
-      ]),
+    controls: ol.control.defaults.defaults().extend([
+      fullScreenControl,
+      // mousePositionControl,
+      overViewMapControl,
+      scaleLineControl,
+      zoomSliderControl,
+      zoomToExtentControl,
+    ]),
   });
-  console.log(ol.control.defaults.defaults());
+ 
 
   //*****************************************************************************
   //*****************************************************************************
@@ -104,173 +96,148 @@ async function init() {
   //*****************************************************************************
   //*****************************************************************************
 
-  // Layer for Africa's shape
-  const africa_shape = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Aafrica_shape&bbox=2.648432493209839%2C1.921666622161865%2C14.693286895751953%2C13.912005424499512&width=768&height=764&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:africa_shape", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(africa_shape);
+  let buses,
+    lines,
+    substations,
+    generators,
+    countries,
+    gadm_shapes,
+    offshore_shapes,
+    africa_shape,
+    all_clean_lines;
 
-  // Layer for offshore shapes
-  const offshore_shapes = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Aoffshore_shapes&bbox=2.684863567352295%2C1.921666622161865%2C8.541397094726562%2C6.429849147796631&width=768&height=591&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:offshore_shapes", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(offshore_shapes);
+  async function getLayerCapabilities(layerName) {
+    const url = `${GEOSERVER_URL}/geoserver/${GEOSERVER_WORKSPACE}/wms?service=WMS&version=1.1.1&request=GetCapabilities`;
 
-  // Layer for GADM (Global Administrative Areas) shapes
-  const gadm_shapes = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Agadm_shapes&bbox=2.668430805206299%2C4.287360668182373%2C14.675124168395996%2C13.892009735107422&width=768&height=614&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:gadm_shapes", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
+    try {
+      const response = await fetch(url);
+      const text = await response.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, "application/xml");
 
-  // Defines the layer extent using BBOX values from the URL
-  const gadmShapesExtent = [
-    2.668430805206299, 4.287360668182373, 14.675124168395996,
-    13.892009735107422,
-  ];
-  // Transforms the extent to the map's coordinate system if necessary
-  const transformedExtent = ol.proj.transformExtent(
-    gadmShapesExtent,
-    "EPSG:4326",
-    map.getView().getProjection()
-  );
-  // Agrega la capa WMS al mapa
-  map.addLayer(gadm_shapes);
-  // Zoom to the layer's extent after the map has finished rendering
-  map.once("postrender", function () {
-    map.getView().fit(transformedExtent, {
-      size: map.getSize(),
-      padding: [100, 100, 100, 100],
-      duration: 1000,
-    });
-  });
+      // Log all layer names in the capabilities
+      const allLayers = Array.from(xml.getElementsByTagName("Layer"));
+      allLayers.forEach((layer) => {
+        const name = layer.getElementsByTagName("Name")[0]?.textContent;
+      });
 
-  // Layer for country shapes
-  const countries = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Acountry_shapes&bbox=2.668430805206299%2C4.287360668182373%2C14.673296928405762%2C13.892009735107422&width=768&height=614&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:country_shapes", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(countries);
+      // Search for the specific layer
+      const layer = allLayers.find((layer) => {
+        const name = layer.getElementsByTagName("Name")[0]?.textContent;
+        return (
+          name === `${GEOSERVER_WORKSPACE}:${layerName}` || name === layerName
+        );
+      });
 
-  // Layer for all clean lines
-  const all_clean_lines = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Aall_clean_lines&bbox=3.148502826690674%2C4.559695243835449%2C13.139745712280273%2C13.028300285339355&width=768&height=650&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:all_clean_lines", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(all_clean_lines);
+      if (layer) {
+        const bbox = layer.getElementsByTagName("BoundingBox")[0];
+        const bboxValues = [
+          parseFloat(bbox.getAttribute("minx")),
+          parseFloat(bbox.getAttribute("miny")),
+          parseFloat(bbox.getAttribute("maxx")),
+          parseFloat(bbox.getAttribute("maxy")),
+        ];
 
-  // Layer for substations
-  const substations = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Aall_clean_substations&bbox=3.207669734954834%2C4.563215255737305%2C13.139745712280273%2C13.028435707092285&width=768&height=654&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: {
-        LAYERS: "PyPSAEarthDashboard:all_clean_substations",
-        TILED: true,
-      },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(substations);
+        const srs = bbox.getAttribute("CRS") || bbox.getAttribute("SRS");
 
-  // Layer for generators
-  const generators = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3AAll_clean_generators&bbox=3.614437580108643%2C4.815903663635254%2C8.273301124572754%2C12.845580101013184&width=445&height=768&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: {
-        LAYERS: "PyPSAEarthDashboard:All_clean_generators",
-        TILED: true,
-      },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(generators);
+        const RESOLUTION = 0.0001;
+        const width = Math.round((bboxValues[2] - bboxValues[0]) / RESOLUTION);
+        const height = Math.round((bboxValues[3] - bboxValues[1]) / RESOLUTION);
+        const format = "application%2Fopenlayers3";
 
-  // Layer for network lines
-  const lines = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3Anetwork_lines_view&bbox=4.034136363636363%2C6.485180952380953%2C12.06048%2C10.78015652173913&width=768&height=410&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:network_lines_view", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(lines);
+        return { bbox: bboxValues.join(","), width, height, srs, format };
+      } else {
+        throw new Error(`Layer ${layerName} not found in capabilities`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  // Layer for buses
-  const buses = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: "http://localhost:8080/geoserver/PyPSAEarthDashboard/wms?service=WMS&version=1.1.0&request=GetMap&layers=PyPSAEarthDashboard%3ABuses_geojson_data&bbox=2.591399908065796%2C6.485180854797363%2C12.060480117797852%2C10.780157089233398&width=768&height=348&srs=EPSG%3A4326&styles=&format=application%2Fopenlayers3",
-      params: { LAYERS: "PyPSAEarthDashboard:Buses_geojson_data", TILED: true },
-      serverType: "geoserver",
-    }),
-  });
-  map.addLayer(buses);
+  async function createWMSUrl(layerName) {
+    try {
+      const { bbox, width, height, srs, format } = await getLayerCapabilities(
+        layerName
+      );
+      const url = `${GEOSERVER_URL}/geoserver/${GEOSERVER_WORKSPACE}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${GEOSERVER_WORKSPACE}:${layerName}&bbox=${bbox}&width=${width}&height=${height}&srs=${srs}&styles=&format=${format}`;
+
+      return url;
+    } catch (error) {}
+  }
+
+  async function addLayerToMap(layerName) {
+    const wmsUrl = await createWMSUrl(layerName);
+    if (wmsUrl) {
+      const layer = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: wmsUrl,
+          params: {
+            LAYERS: `${GEOSERVER_WORKSPACE}:${layerName}`,
+            TILED: true,
+          },
+          serverType: "geoserver",
+        }),
+      });
+
+      map.addLayer(layer);
+
+      // Asigna la capa a una variable global
+      switch (layerName) {
+        case "africa_shape":
+          africa_shape = layer;
+          break;
+        case "offshore_shapes":
+          offshore_shapes = layer;
+          break;
+        case "gadm_shapes":
+          gadm_shapes = layer;
+          break;
+        case "country_shapes":
+          countries = layer;
+          break;
+        case "all_clean_lines":
+          all_clean_lines = layer;
+          break;
+        case "all_clean_substations":
+          substations = layer;
+          break;
+        case "All_clean_generators":
+          generators = layer;
+          break;
+        case "network_lines_view":
+          lines = layer;
+          break;
+        case "Buses_geojson_data":
+          buses = layer;
+          break;
+      }
+    } else {
+    }
+  }
+
+  // Add layers to the map
+  addLayerToMap("africa_shape");
+  addLayerToMap("offshore_shapes");
+  addLayerToMap("gadm_shapes");
+  addLayerToMap("country_shapes");
+  addLayerToMap("all_clean_lines");
+  addLayerToMap("all_clean_substations");
+  addLayerToMap("All_clean_generators");
+  addLayerToMap("network_lines_view");
+  addLayerToMap("Buses_geojson_data");
 
   //*****************************************************************************
   //*****************************************************************************
   // Layer Downloading
   //*****************************************************************************
   //*****************************************************************************
-  /**
-   * Generates a WFS (Web Feature Service) URL for downloading a specific layer.
-   * @param {string} layerName - The name of the layer to download.
-   * @returns {string} The WFS request URL for the specified layer.
-   */
+
   function createWFSDownloadUrl(layerName) {
-    const geoserverUrl = "http://localhost:8080/geoserver/"; // URL of our GeoServer
-    const workspace = "PyPSAEarthDashboard"; // Workspace in GeoServer
-    const wfsVersion = "2.0.0"; // WFS version
-    const requestType = "GetFeature"; // Request type
-    const outputFormat = "application/json"; // Output format
+    const url = `${GEOSERVER_URL}/geoserver/${GEOSERVER_WORKSPACE}/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=${GEOSERVER_WORKSPACE}:${layerName}&outputFormat=application/json`;
 
-    // Constructs and returns the full URL for the WFS request
-    return `${geoserverUrl}ows?service=WFS&version=${wfsVersion}&request=${requestType}&typeName=${workspace}:${layerName}&outputFormat=${outputFormat}`;
+    return url;
   }
 
-  /**
-   * Initiates the download of layer data by fetching it from the server and creating a downloadable link.
-   * @param {string} layerName - The name of the layer to be downloaded.
-   */
-  function downloadLayerData(layerName) {
-    const url = createWFSDownloadUrl(layerName); // Generates the URL for the WFS request
-
-    fetch(url)
-      .then((response) => response.blob()) // Retrieves the data as a Blob
-      .then((blob) => {
-        // Creates a link for downloading the Blob
-        const downloadUrl = window.URL.createObjectURL(blob);
-        const downloadLink = document.createElement("a");
-        downloadLink.href = downloadUrl;
-        downloadLink.download = layerName + ".geojson"; // Sets the file name for the download
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-
-        // Cleans up by removing the download link and revoking the created URL
-        document.body.removeChild(downloadLink);
-        window.URL.revokeObjectURL(downloadUrl);
-      })
-      .catch((error) => {
-        console.error("Error downloading the file:", error);
-      });
-  }
-
-  // Example usage for various layers
-  // Adds click event listeners to buttons for downloading different layers
   document
     .getElementById("download-africa-shape")
     .addEventListener("click", () => downloadLayerData("africa_shape"));
@@ -301,58 +268,74 @@ async function init() {
     .getElementById("download-buses")
     .addEventListener("click", () => downloadLayerData("Buses_geojson_data"));
 
+  function downloadLayerData(layerName) {
+    const url = createWFSDownloadUrl(layerName);
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = downloadUrl;
+        downloadLink.download = `${layerName}.geojson`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        window.URL.revokeObjectURL(downloadUrl);
+      })
+      .catch((error) => {});
+  }
+
   //*****************************************************************************
   //*****************************************************************************
   // Geographic Buttons
   //*****************************************************************************
   //*****************************************************************************
 
-  // Toggles the visibility of the Africa shape layer
+  // Toggle layer visibility
   document
     .getElementById("toggle-africa-shape")
     .addEventListener("change", function () {
-      africa_shape.setVisible(this.checked);
+      if (africa_shape) africa_shape.setVisible(this.checked);
     });
-  // Repeats the same pattern for other layers, adjusting visibility based on toggle state
   document
     .getElementById("toggle-offshore-shapes")
     .addEventListener("change", function () {
-      offshore_shapes.setVisible(this.checked);
+      if (offshore_shapes) offshore_shapes.setVisible(this.checked);
     });
   document
     .getElementById("toggle-gadm-shapes")
     .addEventListener("change", function () {
-      gadm_shapes.setVisible(this.checked);
+      if (gadm_shapes) gadm_shapes.setVisible(this.checked);
     });
   document
     .getElementById("toggle-countries")
     .addEventListener("change", function () {
-      countries.setVisible(this.checked);
+      if (countries) countries.setVisible(this.checked);
     });
   document
     .getElementById("toggle-all-clean-lines")
     .addEventListener("change", function () {
-      all_clean_lines.setVisible(this.checked);
+      if (all_clean_lines) all_clean_lines.setVisible(this.checked);
     });
   document
     .getElementById("toggle-all-clean-generators")
     .addEventListener("change", function () {
-      generators.setVisible(this.checked);
+      if (generators) generators.setVisible(this.checked);
     });
   document
     .getElementById("toggle-all-clean-substations")
     .addEventListener("change", function () {
-      substations.setVisible(this.checked);
+      if (substations) substations.setVisible(this.checked);
     });
   document
     .getElementById("toggle-lines")
     .addEventListener("change", function () {
-      lines.setVisible(this.checked);
+      if (lines) lines.setVisible(this.checked);
     });
   document
     .getElementById("toggle-buses")
     .addEventListener("change", function () {
-      buses.setVisible(this.checked);
+      if (buses) buses.setVisible(this.checked);
     });
 
   // Overlays for displaying labels on the map
@@ -361,7 +344,7 @@ async function init() {
     element: labelElement,
     positioning: "bottom-center",
     stopEvent: false,
-    offset: [0, -10], // Here it can be modified as desired
+    offset: [0, -10],
   });
   map.addOverlay(labelOverlay);
 
@@ -370,12 +353,15 @@ async function init() {
     element: lineLabelElement,
     positioning: "bottom-center",
     stopEvent: false,
-    offset: [0, -10], // Here it can be modified as desired
+    offset: [0, -10],
   });
   map.addOverlay(lineLabelOverlay);
 
-
-  // Handles click events on the map, showing labels for buses or lines if clicked
+  //*****************************************************************************
+  //*****************************************************************************
+  // Event Handlers and Map Interactions
+  //*****************************************************************************
+  //*****************************************************************************
   map.on("singleclick", function (evt) {
     const viewResolution = map.getView().getResolution();
     let clickedSomething = false;
@@ -454,14 +440,6 @@ async function init() {
     labelOverlay.setPosition(coordinate);
   }
 
-  // // label for lines
-  // function updateLabelForLine(lineId, coordinate) {
-  //   const lineLabelElement = document.getElementById("line-map-label");
-  //   lineLabelElement.innerHTML = `Line: ${lineId}`;
-  //   lineLabelElement.style.display = "block";
-  //   lineLabelOverlay.setPosition(coordinate);
-  // }
-
   function updateLabelForLine(lineId, coordinate) {
     const lineLabelElement = document.getElementById("line-map-label");
     lineLabelElement.innerHTML = `Line: ${lineId}`;
@@ -504,13 +482,12 @@ async function init() {
   //*****************************************************************************
   //*****************************************************************************
   if (map) {
-    map.on('moveend', updateUrlWithCurrentView);
-    map.on('singleclick', updateUrlWithCurrentView);
+    map.on("moveend", updateUrlWithCurrentView);
+    map.on("singleclick", updateUrlWithCurrentView);
   } else {
-    console.error('El objeto "map" no está definido.');
+    console.error('"map" not difined.');
   }
 }
-
 
 //*****************************************************************************
 //*****************************************************************************
@@ -802,7 +779,7 @@ document
       const searchQuery = this.value;
       const locations = await searchLocation(searchQuery);
 
-      // If locations are found, zoom to the first location 
+      // If locations are found, zoom to the first location
       if (locations.length > 0) {
         const firstLocation = locations[0];
         const coords = [
@@ -857,32 +834,27 @@ function toggleSidebar(side) {
   const flexContainer = document.querySelector(".flex-grow-1");
   const leftBtn = document.getElementById("btn-toggle-left-sidebar");
   const rightBtn = document.getElementById("btn-toggle-right-sidebar");
-  const mousePositionElement = document.getElementById("mouse-position");
 
   // Toggle left sidebar visibility and adjust map view
   if (side === "left") {
     document.body.classList.toggle("show-left-sidebar");
-    flexContainer.classList.toggle("map-shift-right");
-    // Toggle right sidebar visibility and adjust map view and button positions
+    if (flexContainer) flexContainer.classList.toggle("map-shift-right");
   } else if (side === "right") {
     document.body.classList.toggle("show-right-sidebar");
-    flexContainer.classList.toggle("map-shift-left");
+    if (flexContainer) flexContainer.classList.toggle("map-shift-left");
 
     // Move buttons based on the right sidebar's visibility
-    leftBtn.classList.toggle(
-      "move-right",
-      document.body.classList.contains("show-right-sidebar")
-    );
-    rightBtn.classList.toggle(
-      "move-left",
-      document.body.classList.contains("show-right-sidebar")
-    );
-
-    // Update map size after sidebar transition to ensure proper display
-    if (document.body.classList.contains("show-right-sidebar")) {
-      mousePositionElement.classList.add("move-right-mouse-position");
-    } else {
-      mousePositionElement.classList.remove("move-right-mouse-position");
+    if (leftBtn) {
+      leftBtn.classList.toggle(
+        "move-right",
+        document.body.classList.contains("show-right-sidebar")
+      );
+    }
+    if (rightBtn) {
+      rightBtn.classList.toggle(
+        "move-left",
+        document.body.classList.contains("show-right-sidebar")
+      );
     }
   }
 
@@ -910,51 +882,51 @@ window.onload = init;
 
 // Define color codes for various energy generators and map elements
 const generatorColors = {
-  "onwind": "#235ebc",
+  onwind: "#235ebc",
   "onshore wind": "#235ebc",
-  "offwind": "#6895dd",
+  offwind: "#6895dd",
   "offwind-ac": "#6895dd",
   "offshore wind": "#6895dd",
   "offshore wind ac": "#6895dd",
   "offwind-dc": "#74c6f2",
   "offshore wind dc": "#74c6f2",
-  "hydro": "#08ad97",
+  hydro: "#08ad97",
   "hydro+PHS": "#08ad97",
-  "PHS": "#08ad97",
+  PHS: "#08ad97",
   "hydro reservoir": "#08ad97",
-  "hydroelectricity": "#08ad97",
-  "ror": "#4adbc8",
+  hydroelectricity: "#08ad97",
+  ror: "#4adbc8",
   "run of river": "#4adbc8",
-  "solar": "#f9d002",
+  solar: "#f9d002",
   "solar PV": "#f9d002",
   "solar thermal": "#ffef60",
-  "biomass": "#0c6013",
+  biomass: "#0c6013",
   "solid biomass": "#06540d",
-  "biogas": "#23932d",
-  "waste": "#68896b",
-  "geothermal": "#ba91b1",
-  "OCGT": "#d35050",
-  "gas": "#d35050",
+  biogas: "#23932d",
+  waste: "#68896b",
+  geothermal: "#ba91b1",
+  OCGT: "#d35050",
+  gas: "#d35050",
   "natural gas": "#d35050",
-  "CCGT": "#b20101",
-  "nuclear": "#ff9000",
-  "coal": "#707070",
-  "lignite": "#9e5a01",
-  "oil": "#262626",
-  "H2": "#ea048a",
+  CCGT: "#b20101",
+  nuclear: "#ff9000",
+  coal: "#707070",
+  lignite: "#9e5a01",
+  oil: "#262626",
+  H2: "#ea048a",
   "hydrogen storage": "#ea048a",
-  "battery": "#b8ea04",
+  battery: "#b8ea04",
   "Electric load": "#f9d002",
-  "electricity": "#f9d002",
-  "lines": "#70af1d",
+  electricity: "#f9d002",
+  lines: "#70af1d",
   "transmission lines": "#70af1d",
   "AC-AC": "#70af1d",
   "AC line": "#70af1d",
-  "links": "#8a1caf",
+  links: "#8a1caf",
   "HVDC links": "#8a1caf",
   "DC-DC": "#8a1caf",
   "DC link": "#8a1caf",
-  "load": "#FF0000",
+  load: "#FF0000",
 
   "Nominal Capacity": "#7ec8e3", // Azul Cobalto
   "Optimal Capacity": "#a4d65e", // Verde Esmeralda
@@ -986,7 +958,7 @@ function initChart(
           enabled: true,
           mode: "xy",
           speed: 10,
-          threshold: 10
+          threshold: 10,
         },
         zoom: {
           wheel: {
@@ -1437,6 +1409,7 @@ function createDualDatasets(sNomData, sNomOptData) {
 
 // Initialize data loading and visualization once the DOM content is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
+  // init();
   loadNominalGeneratorCapacityData();
   loadOptimalGeneratorCapacityData();
   loadNominalStorageCapacityData();
@@ -1449,27 +1422,29 @@ function updateUrlWithCurrentView() {
   const center = ol.proj.toLonLat(view.getCenter());
   const zoom = view.getZoom();
   const queryParams = new URLSearchParams(window.location.search);
-  
+
   // Update or set new query parameters
-  queryParams.set('lat', center[1].toFixed(5)); // Latitude, fixed to 5 decimal places
-  queryParams.set('lon', center[0].toFixed(5)); // Longitude, fixed to 5 decimal places
-  queryParams.set('zoom', zoom.toFixed(2)); // Zoom level, fixed to 2 decimal places
-  
+  queryParams.set("lat", center[1].toFixed(5)); // Latitude, fixed to 5 decimal places
+  queryParams.set("lon", center[0].toFixed(5)); // Longitude, fixed to 5 decimal places
+  queryParams.set("zoom", zoom.toFixed(2)); // Zoom level, fixed to 2 decimal places
+
   // Update the URL without reloading the page
-  window.history.pushState({}, '', `${window.location.pathname}?${queryParams.toString()}`);
+  window.history.pushState(
+    {},
+    "",
+    `${window.location.pathname}?${queryParams.toString()}`
+  );
 }
 
 // Apply URL parameters on page load to set map view
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const queryParams = new URLSearchParams(window.location.search);
-  const lat = parseFloat(queryParams.get('lat'));
-  const lon = parseFloat(queryParams.get('lon'));
-  const zoom = parseFloat(queryParams.get('zoom'));
-  
+  const lat = parseFloat(queryParams.get("lat"));
+  const lon = parseFloat(queryParams.get("lon"));
+  const zoom = parseFloat(queryParams.get("zoom"));
+
   if (!isNaN(lat) && !isNaN(lon) && !isNaN(zoom)) {
     map.getView().setCenter(ol.proj.fromLonLat([lon, lat]));
     map.getView().setZoom(zoom);
   }
 });
-
-

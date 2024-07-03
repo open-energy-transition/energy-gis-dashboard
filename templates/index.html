@@ -14,21 +14,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <title>PyPSA-Earth</title>
   {% comment %} Importing styles and external scripts {% endcomment %}
   {% comment %} Tailwind CSS framework {% endcomment %}
-  {% comment %} <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet"> {% endcomment %}
   <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css"></noscript>
   
   {% comment %} OpenLayers CSS file (version 6.9.0) {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css" type="text/css" /> {% endcomment %}
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"></noscript>
 
   {% comment %} This script tag imports the OpenLayers JavaScript library (version 6.3.0) {% endcomment %}
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
-  {% comment %} A local version of the OpenLayers CSS file {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="{% static './v8.1.0-package/ol.css' %}" /> {% endcomment %}
-  <link rel="preload" href="{% static './v8.1.0-package/ol.css' %}" as="style" onload="this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="{% static './v8.1.0-package/ol.css' %}"></noscript>
 
   <link rel="manifest" href="{% static './manifest.json' %}">
 
@@ -37,18 +31,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   {% comment %} This script includes the Bootstrap JavaScript bundle (version 5.3.2) {% endcomment %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
   {% comment %} My local custom CSS file {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="{% static './style.css' %}" /> {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="{% static './style.min.css' %}" /> {% endcomment %}
   <link rel="preload" href="{% static './style.min.css' %}" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="{% static './style.min.css' %}"></noscript>
 
   {% comment %} Font Awesome (version 5.15.1) from the Cloudflare CDN {% endcomment %}
-  {% comment %} <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"> {% endcomment %}
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"></noscript>
 
   {% comment %} Link to Google font {% endcomment %}
-  {% comment %} <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> {% endcomment %}
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap&font-display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap&font-display=swap" rel="stylesheet"></noscript>
   
@@ -247,7 +237,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       {% comment %} Map {% endcomment %}
       <div class="flex-grow-1">
         <div id="js-map" class="map"></div>
-          {% comment %} <div id="mouse-position" class="ol-mouse-position" style="pointer-events: auto;"></div> {% endcomment %}
         </div>
       </div>
   </div>
@@ -263,23 +252,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <button id="btn-toggle-left-sidebar" class="btn btn-secondary nav-item nav-link" title="Geographic Layers">
     <i class="fas fa-layer-group"></i>
   </button> 
-  {% comment %} <!-- Scenarios Icon -->
-  <button id="btn-toggle-scenarios" class="btn btn-secondary nav-item nav-link" title="Scenarios">
-    <i class="fas fa-project-diagram"></i>
-  </button>
-
-  <!-- NetZero Icon -->
-  <button id="btn-toggle-netzero" class="btn btn-secondary nav-item nav-link" title="NetZero Emissions">
-    <i class="fas fa-globe"></i>
-  </button> {% endcomment %}
-
   <!-- ... space for other icons ... -->
 </div>
 
-
+{% comment %} Definir GEOSERVER_URL {% endcomment %}
+<script>
+  const GEOSERVER_URL = "{{ geoserver_url }}";
+  const GEOSERVER_WORKSPACE = "{{ geoserver_workspace }}";
+</script>
 {% comment %} Scritps {% endcomment %}
 <script src="{% static './Libs/dist/ol.js' %}"></script>
-{% comment %} <script src="{% static 'main.js' %}"></script>   {% endcomment %}
 <script src="{% static 'main.min.js' %}" ></script>  
 </body>
 
@@ -290,8 +272,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <p>Developed by Bryan Ramirez | </p>
         <p> &copy; 2023 | </p>
         <a class="foot-item" href="https://www.linkedin.com/company/pypsa-meets-earth/" target="_blank" rel="noopener noreferrer">PyPSA-Earth</a>
-        <p> | </p>
-        <a class="foot-item" href="https://www.hft-stuttgart.com/geomatics/master-photogrammetry-and-geoinformatics" target="_blank" rel="noopener noreferrer">Master's Thesis, M.Sc. Photogrammetry and Geoinformatics</a>
+        {% comment %} <p> | </p>
+        <a class="foot-item" href="https://www.hft-stuttgart.com/geomatics/master-photogrammetry-and-geoinformatics" target="_blank" rel="noopener noreferrer">Master's Thesis, M.Sc. Photogrammetry and Geoinformatics</a> {% endcomment %}
         <p> | </p>
         <a class="foot-item" href="https://www.hft-stuttgart.com/" target="_blank" rel="noopener noreferrer">Hochschule für Technik Stuttgart</a>
         <p> | </p>
