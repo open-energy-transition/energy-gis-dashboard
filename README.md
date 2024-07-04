@@ -46,7 +46,7 @@ Adjust the `.env` file with your database and Redis connection settings.
     
     ```bash
     python manage.py migrate
-    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql.` This file can easily restore the database using pgAdmin, a popular database management tool for PostgreSQL. Make sure to have the POstGIS extension created as `CREATE EXTENSION postgis;`
+    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql`. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
 
     ```
     
