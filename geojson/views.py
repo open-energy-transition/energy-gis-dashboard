@@ -1,6 +1,11 @@
+# SPDX-FileCopyrightText: 2024 Bryan Ramirez <bryan.ramirez@openenergytransition.org>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+
 from django.shortcuts import render
+from django.conf import settings 
 from django.http import JsonResponse
-from django.shortcuts import render
 from .models import (
   Lines,
   NominalGeneratorCapacity,
@@ -9,46 +14,48 @@ from .models import (
   OptimalStorageCapacity
 )
 
-# Create your views here.
+# Views are here.
 def index(request):
-  return render(request, 'index.html')
+    context = {
+        'geoserver_url': settings.GEOSERVER_URL,
+        'geoserver_workspace': settings.GEOSERVER_WORKSPACE,
+    }
+    return render(request, 'index.html', context)
 
 def nominal_generator_capacity_json(request):
-    # Selecciona solo los campos que necesitas
     capacities = NominalGeneratorCapacity.objects.all().values(
         'id', 'Bus', 'v_nom', 'country', 'x', 'y', 'control', 'generator',
         'type', 'unit', 'v_mag_pu_set', 'v_mag_pu_min', 'sub_network', 'geom',
         'carrier', 'p_nom'
     )
-    # Convierte el QuerySet a una lista de diccionarios
+    # Convert the QuerySet to a list of dictionaries
     capacity_list = list(capacities)
-    # Asegúrate de que los campos geométricos se convierten a un formato JSON amigable
+    # Convert geometric fields to a JSON-friendly format
     for capacity in capacity_list:
-        capacity['geom'] = str(capacity['geom'])  # Convertir el valor geométrico a string, si es necesario
+        capacity['geom'] = str(capacity['geom'])  # Convert geometric value to string if necessary
     return JsonResponse(capacity_list, safe=False)
 
 
 def optimal_generator_capacity_json(request):
-    # Selecciona solo los campos que necesitas
     capacities = OptimalGeneratorCapacity.objects.all().values(
         'id', 'Bus', 'v_nom', 'country', 'x', 'y', 'control', 'generator',
         'type', 'unit', 'v_mag_pu_set', 'v_mag_pu_min', 'sub_network', 'geom',
         'carrier', 'p_nom_opt'
     )
-    # Convierte el QuerySet a una lista de diccionarios
+    # Convert the QuerySet to a list of dictionaries
     capacity_list = list(capacities)
-    # Asegúrate de que los campos geométricos se convierten a un formato JSON amigable
+    # Convert geometric fields to a JSON-friendly format
     for capacity in capacity_list:
-        capacity['geom'] = str(capacity['geom'])  # Convertir el valor geométrico a string, si es necesario
+        capacity['geom'] = str(capacity['geom'])  # Convert geometric value to string if necessary
     return JsonResponse(capacity_list, safe=False)
     
 def nominal_storage_capacity_json(request):
     capacities = NominalStorageCapacity.objects.all().values(
         'Bus', 'geom', 'carrier', 'p_nom'
     )
-    # Convierte el QuerySet a una lista de diccionarios
+    # Convert the QuerySet to a list of dictionaries
     capacity_list = list(capacities)
-    # Convertir el valor geométrico a string, si es necesario
+    # Convert geometric value to string if necessary
     for capacity in capacity_list:
         capacity['geom'] = str(capacity['geom'])
     return JsonResponse(capacity_list, safe=False)
@@ -57,9 +64,9 @@ def optimal_storage_capacity_json(request):
     capacities = OptimalStorageCapacity.objects.all().values(
         'Bus', 'geom', 'carrier', 'p_nom_opt'
     )
-    # Convierte el QuerySet a una lista de diccionarios
+    # Convert the QuerySet to a list of dictionaries
     capacity_list = list(capacities)
-    # Convertir el valor geométrico a string, si es necesario
+    # Convert geometric value to string if necessary
     for capacity in capacity_list:
         capacity['geom'] = str(capacity['geom'])
     return JsonResponse(capacity_list, safe=False)  
@@ -72,9 +79,9 @@ def line_data_json(request):
         'v_nom', 'g', 's_nom_max', 'lifetime', 'terrain_factor', 
         'v_ang_min', 'v_ang_max', 'sub_network', 'x_pu', 'r_pu', 'g_pu', 'b_pu', 'line_geom'
     )
-    # Convierte el QuerySet a una lista de diccionarios
+    # Convert the QuerySet to a list of dictionaries
     line_list = list(line_data)
-    # Convertir el valor geométrico a string, si es necesario
+    # Convert geometric value to string if necessary
     for line in line_list:
         line['line_geom'] = str(line['line_geom'])
     return JsonResponse(line_list, safe=False)

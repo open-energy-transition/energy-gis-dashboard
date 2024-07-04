@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Bryan Ramirez <bryan.ramirez@openenergytransition.org>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
 """
 Django settings for PyPSAEarthDashboard project.
 
@@ -12,47 +16,32 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-
-import logging
 import logging.config
 from django.utils.log import DEFAULT_LOGGING
 
 import environ
-environ.Env.read_env() 
 env = environ.Env()
-
-# if os.name == 'nt':
-#     VENV_BASE = os.environ['VIRTUAL_ENV']
-#     os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
-#     os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
+environ.Env.read_env() 
 
 if os.name == 'nt':
-    VENV_BASE = os.environ.get('VIRTUAL_ENV')  # Usa get() para evitar KeyError
-    if VENV_BASE:  # Continuar solo si VENV_BASE no es None
+    VENV_BASE = os.environ.get('VIRTUAL_ENV')
+    if VENV_BASE:
         gdal_path = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo')
         os.environ['PATH'] = gdal_path + ';' + os.environ['PATH']
         os.environ['PROJ_LIB'] = os.path.join(gdal_path, 'data\\proj') + ';' + os.environ['PATH']
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env_file = BASE_DIR / '.env'  # This is equivalent to os.path.join(BASE_DIR, '.env')
-
-# Read the .env file
+env_file = BASE_DIR / '.env'
 env.read_env(str(env_file))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
-# DEBUG = True
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
-# Application definition
-
+GEOSERVER_URL = env('GEOSERVER_URL')
+GEOSERVER_WORKSPACE = env('GEOSERVER_WORKSPACE')
 GDAL_LIBRARY_PATH = r'C:\Users\ramir\miniconda3\Library\bin\gdal.dll'
 
 INSTALLED_APPS = [
@@ -103,19 +92,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PyPSAEarthDashboard.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': env.db('DATABASE_URL')
 }
 
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -132,33 +113,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'PyPSAEarthDashboard', 'static'),  
 ]
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 LOGGING = {
     'version': 1,
@@ -202,6 +168,5 @@ CACHES = {
     }
 }
 
-# setting to allow session caching in Redis
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"

@@ -42,35 +42,13 @@ Make sure your Redis server is running, as it handles caching and session manage
     ```
     
 4. **Database Setup:**
+Adjust the `.env` file with your database and Redis connection settings.
+    
+    ```bash
+    python manage.py migrate
+    # A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql`. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
 
-    1. Create the Database (if not already created):
-       Open pgAdmin and connect to your PostgreSQL server.
-       Right-click on 'Databases', then select 'Create' -> 'Database'.
-       Name the database `PyPSAEarthDashboard` and configure any additional settings as needed.
-       Click 'Save' to create the database.
-
-    2. Restore the Database:
-       A database backup is provided in the form of an SQL file named `PyPSAEarthDashboard.sql` in the `database` folder. This file can be used to easily restore the database using pgAdmin, a popular database management tool for PostgreSQL.
-       - Open pgAdmin and connect to your PostgreSQL server.
-       - Right-click on your newly created database (`PyPSAEarthDashboard`) and select 'Restore'.
-       - Navigate to the `database` folder, select the `PyPSAEarthDashboard.sql` file, and proceed with the restore.
-
-    3. Apply Database Migrations:
-       Adjust the `.env` file with your database and Redis connection settings if necessary.
-       ```bash
-       python manage.py migrate
-       ```
-
-    4. Create New Migrations (if necessary):
-       If you have made changes to the database models since the last migration, navigate to the application folder and run the following command to apply migrations:
-       ```bash
-       python manage.py makemigrations
-       ```
-       Apply the new migrations:
-       ```bash
-       python manage.py migrate
-       ```
-
+    ```
     
 
 ## Usage
@@ -83,7 +61,7 @@ To use the dashboard:
     python manage.py runserver
     ```
     
-    This command starts a local web server. Access the dashboard by navigating to `http://localhost:8000` in your web browser.
+    This command starts a local web server. To access the dashboard, navigate to `http://localhost:8000` in your web browser.
     
 2. **Explore the Dashboard:**
     - Utilize the layer controls in the sidebar to toggle different data layers.
@@ -115,9 +93,9 @@ This project was financed by the program ["Junge Innovatoren (JI)"](https://www.
 
 ## License
 
-This project is open-source under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). The LICENSE file in this repository provides more details.
+This project is open-source under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html). The LICENSE folder in this repository provides more details.
 
-
+[![REUSE status](https://api.reuse.software/badge/github.com/pypsa-meets-earth/pypsa-earth)](https://api.reuse.software/info/github.com/pypsa-meets-earth/pypsa-earth)
 ## Contact
 
 Please get in touch with [Bryan Ramirez](https://github.com/BryanFran) and [Ekaterina Fedotova](https://github.com/ekatef) for further information or support.
