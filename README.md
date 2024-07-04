@@ -95,6 +95,7 @@ This project was financed by the program ["Junge Innovatoren (JI)"](https://www.
 
 This project is open-source under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html). The LICENSE folder in this repository provides more details.
 
+[![REUSE status](https://api.reuse.software/badge/github.com/pypsa-meets-earth/pypsa-earth)](https://api.reuse.software/info/github.com/pypsa-meets-earth/pypsa-earth)
 ## Contact
 
 Please get in touch with [Bryan Ramirez](https://github.com/BryanFran) and [Ekaterina Fedotova](https://github.com/ekatef) for further information or support.
