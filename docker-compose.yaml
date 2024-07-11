@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 8000:80
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    depends_on:
+      - energy-dashboard
+    restart: always
+ 
+  energy-dashboard:
+    build: ./energy-gis-dashboard
+    entrypoint : "gunicorn PyPSAEarthDashboard.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    expose: 
+      - 8000
+    restart: always
+
+volumes:
+  static_volume:
+  media_volume:
