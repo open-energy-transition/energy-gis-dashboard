@@ -42,7 +42,8 @@ ALLOWED_HOSTS = []
 
 GEOSERVER_URL = env('GEOSERVER_URL')
 GEOSERVER_WORKSPACE = env('GEOSERVER_WORKSPACE')
-GDAL_LIBRARY_PATH = r'C:\Users\ramir\miniconda3\Library\bin\gdal.dll'
+# GDAL_LIBRARY_PATH = r'C:\Users\ramir\miniconda3\Library\bin\gdal.dll'
+# GDAL_LIBRARY_PATH = r'/home/akshat/anaconda3/envs/dashboard_env/lib/python3.12/site-packages/gdal.dll'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -67,10 +68,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8080",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "*",
+#     # "http://127.0.0.1:8000",
+#     # "http://localhost:8080",
+# ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'PyPSAEarthDashboard.urls'
 
@@ -158,15 +161,15 @@ LOGGING = {
     },
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env('REDIS_URL', default="redis://127.0.0.1:6379/1"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": env('REDIS_URL', default="redis://127.0.0.1:6379/1"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
