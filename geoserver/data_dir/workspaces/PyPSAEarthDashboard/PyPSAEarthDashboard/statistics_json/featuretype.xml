@@ -1,0 +1,43 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--1250bb6f:18d38cb2863:-8000</id>
+  <name>statistics_json</name>
+  <nativeName>statistics_json</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-1e11b5f0:18c5fca7820:-7fff</id>
+  </namespace>
+  <title>statistics_json</title>
+  <keywords>
+    <string>features</string>
+    <string>statistics_json</string>
+  </keywords>
+  <srs>EPSG:404000</srs>
+  <nativeBoundingBox>
+    <minx>1.0</minx>
+    <maxx>2.0</maxx>
+    <miny>1.0</miny>
+    <maxy>2.0</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>1.0</minx>
+    <maxx>2.0</maxx>
+    <miny>1.0</miny>
+    <maxy>2.0</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-1e11b5f0:18c5fca7820:-7ffe</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <internationalTitle/>
+  <internationalAbstract/>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

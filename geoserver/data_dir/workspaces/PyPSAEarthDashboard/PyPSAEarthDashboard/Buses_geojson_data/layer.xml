@@ -1,0 +1,22 @@
+<layer>
+  <name>Buses_geojson_data</name>
+  <id>LayerInfoImpl-39bca43a:18c6578423c:-7fff</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d40c1e5af:-7f5e</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-7f5e</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-39bca43a:18c6578423c:-8000</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-13 23:17:09.350 UTC</dateCreated>
+  <dateModified>2024-01-25 16:10:00.616 UTC</dateModified>
+</layer>

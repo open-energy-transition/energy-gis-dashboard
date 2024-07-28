@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+ 
+  energy-dashboard:
+    build: ./energy-gis-dashboard
+    entrypoint : "python manage.py runserver"
+    expose: 
+      - 8000
+    restart: always
+
+  postgres:
+   build: ./postgres
+   expose:
+   - 5432
+   restart: never
+
+
+
+# sudo docker run -it -p8080:8080 \
+#   --mount type=bind,src=/home/akshat/data_dir,target=/opt/geoserver_data \
+#   --env INSTALL_EXTENSIONS=true \
+#   --env CORS_ENABLED=true \ 
+#   --env STABLE_EXTENSIONS="gdal,charts,css" \
+#   --env COMMUNITY_EXTENSIONS="backup-restore" \
+#   docker.osgeo.org/geoserver:2.26.x
+
+
+
+   

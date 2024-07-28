@@ -1,0 +1,22 @@
+<layer>
+  <name>all_clean_substations</name>
+  <id>LayerInfoImpl--6fb7e51e:18c6a43c148:-7c22</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d40c1e5af:-6bdf</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-6bdf</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--6fb7e51e:18c6a43c148:-7c23</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-14 23:12:29.571 UTC</dateCreated>
+  <dateModified>2024-01-25 16:37:32.240 UTC</dateModified>
+</layer>

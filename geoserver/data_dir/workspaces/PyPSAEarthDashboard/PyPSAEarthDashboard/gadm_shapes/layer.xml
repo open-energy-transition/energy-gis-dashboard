@@ -1,0 +1,22 @@
+<layer>
+  <name>gadm_shapes</name>
+  <id>LayerInfoImpl-39bca43a:18c6578423c:-7f9f</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d40c1e5af:-5d8a</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-5d8a</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-39bca43a:18c6578423c:-7fa0</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-13 23:48:09.573 UTC</dateCreated>
+  <dateModified>2024-01-25 17:23:19.209 UTC</dateModified>
+</layer>

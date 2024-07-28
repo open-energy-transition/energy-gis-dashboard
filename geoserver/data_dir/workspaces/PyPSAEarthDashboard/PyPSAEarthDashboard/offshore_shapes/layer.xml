@@ -1,0 +1,22 @@
+<layer>
+  <name>offshore_shapes</name>
+  <id>LayerInfoImpl-39bca43a:18c6578423c:-7f9d</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d4304c4b8:-3ec7</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d4304c4b8:-3ec7</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-39bca43a:18c6578423c:-7f9e</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-13 23:48:54.299 UTC</dateCreated>
+  <dateModified>2024-01-25 23:50:42.576 UTC</dateModified>
+</layer>

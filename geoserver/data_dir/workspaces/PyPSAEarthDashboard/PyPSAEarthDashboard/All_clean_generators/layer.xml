@@ -1,0 +1,25 @@
+<layer>
+  <name>All_clean_generators</name>
+  <id>LayerInfoImpl--6fb7e51e:18c6a43c148:-7dc7</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d40c1e5af:-1ec5</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--570ae188:124761b8d78:-7fdf</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-1ec5</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--6fb7e51e:18c6a43c148:-7dc8</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-14 23:09:40.701 UTC</dateCreated>
+  <dateModified>2024-01-25 17:38:32.738 UTC</dateModified>
+</layer>

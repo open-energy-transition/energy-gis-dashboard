@@ -1,0 +1,13 @@
+<layer>
+  <name>statistics_json</name>
+  <id>LayerInfoImpl--1250bb6f:18d38cb2863:-7fff</id>
+  <type>VECTOR</type>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--1250bb6f:18d38cb2863:-8000</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2024-01-24 00:07:34.780 UTC</dateCreated>
+</layer>

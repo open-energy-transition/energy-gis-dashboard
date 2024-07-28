@@ -1,0 +1,22 @@
+<layer>
+  <name>network_lines_view</name>
+  <id>LayerInfoImpl--13c57de9:18d603808d3:10f6</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--6c510055:18f2beab6c2:-7fff</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-6bdd</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--13c57de9:18d603808d3:10f5</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2024-01-31 16:41:39.206 UTC</dateCreated>
+  <dateModified>2024-04-29 22:13:26.89 UTC</dateModified>
+</layer>
