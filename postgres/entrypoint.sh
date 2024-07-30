@@ -1,8 +1,14 @@
 #!/bin/bash
 set -e
 
+
+export PGPASSWORD=${POSTGRES_PASSWORD}
+
+# Initialize the PostgreSQL data directory with md5 authentication
+initdb -D ${PGDATA} -A md5 --pwfile=<(echo "$POSTGRES_PASSWORD")
+
 # Initialize the PostgreSQL data directory
-initdb -D ${PGDATA}
+# initdb -D ${PGDATA} -A md5
 
 # Copy custom configuration files to the PostgreSQL data directory
 cp /data/postgresql.conf ${PGDATA}/postgresql.conf
