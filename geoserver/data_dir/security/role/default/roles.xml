@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><roleRegistry xmlns="http://www.geoserver.org/security/roles" version="1.0">
+<roleList>
+<role id="ADMIN"/>
+<role id="GROUP_ADMIN"/>
+<role id="sf_editor"/>
+<role id="sf_viewer"/>
+<role id="topp_editor"/>
+<role id="topp_viewer"/>
+</roleList>
+<userList>
+<userRoles username="admin">
+<roleRef roleID="ADMIN"/>
+</userRoles>
+</userList>
+<groupList>
+<groupRoles groupname="sf_all">
+<roleRef roleID="sf_editor"/>
+<roleRef roleID="sf_viewer"/>
+</groupRoles>
+<groupRoles groupname="topp_all">
+<roleRef roleID="topp_editor"/>
+<roleRef roleID="topp_viewer"/>
+</groupRoles>
+<groupRoles groupname="viewers">
+<roleRef roleID="sf_viewer"/>
+<roleRef roleID="topp_viewer"/>
+</groupRoles>
+</groupList>
+</roleRegistry>

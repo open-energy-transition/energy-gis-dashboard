@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+ 
+  energy-dashboard:
+    build: ./energy-gis-dashboard
+    entrypoint : "python manage.py runserver"
+    ports: 
+      - "8000:8000"
+    restart: always
+
+  postgres_my:
+    build: ./postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/akshat/energy-gis-dashboard-container/postgres/mypostgresDB-backup.sql:/data/mypostgresDB-backup.sql
+    network_mode: "host"
+
+  geoserver_my:
+    build: ./geoserver
+    network_mode: "host"
+    ports:
+      - "8080:8080" 
+    volumes:
+      - /home/akshat/energy-gis-dashboard-container/geoserver/data_dir:/opt/geoserver_data
+
+
+
+
+
+
+   

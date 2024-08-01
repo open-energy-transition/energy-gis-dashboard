@@ -1,0 +1,16 @@
+<layer>
+  <name>geojson_regions_CO</name>
+  <id>LayerInfoImpl--6c510055:18f3f03f00c:4500</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-37b18cc6:14d5d036d48:-8000</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--6c510055:18f3f03f00c:44ff</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2024-05-03 22:42:03.556 UTC</dateCreated>
+</layer>

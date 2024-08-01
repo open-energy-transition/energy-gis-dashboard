@@ -1,0 +1,22 @@
+<layer>
+  <name>africa_shape</name>
+  <id>LayerInfoImpl-39bca43a:18c6578423c:-7fa3</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d41c1e46b:59c3</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d41c1e46b:59c3</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-39bca43a:18c6578423c:-7fa4</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-13 23:46:55.231 UTC</dateCreated>
+  <dateModified>2024-01-25 23:32:09.255 UTC</dateModified>
+</layer>

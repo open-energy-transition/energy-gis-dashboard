@@ -1,0 +1,22 @@
+<layer>
+  <name>country_shapes</name>
+  <id>LayerInfoImpl-39bca43a:18c6578423c:-7fa1</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--13c57de9:18d40c1e5af:-6bde</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl--13c57de9:18d40c1e5af:-6bde</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-39bca43a:18c6578423c:-7fa2</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2023-12-13 23:47:27.373 UTC</dateCreated>
+  <dateModified>2024-01-25 16:38:53.954 UTC</dateModified>
+</layer>

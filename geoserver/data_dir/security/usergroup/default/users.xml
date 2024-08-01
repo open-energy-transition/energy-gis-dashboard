@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><userRegistry xmlns="http://www.geoserver.org/security/users" version="1.0">
+<users>
+<user enabled="true" name="admin" password="digest1:oIFG+E3Y/iU0Yi6ppDeO3BEzNS6VROBy+5mqXcv4ApBiKouoa918GyQ/ty/cXVRO"/>
+<user enabled="true" name="anita" password="digest1:kjKSTpDGH6xEhtJk+/UpnKWa8Qx5ft55QZfc6RiDk83PVM9qn2EgUN4yxQnHeSZD"/>
+<user enabled="true" name="bob" password="digest1:1+aPBJzo4VRdXKwKt8n5ADbWfWGykYj5KCp9k2wADTWR7SI6Qa9ic0Nt0FEpNJzj"/>
+<user enabled="true" name="suzy" password="digest1:5fkL4gaTIVhukp17A5b0MiWYwKhPc0X/HCahgl6eQpatZVKfcNj44trrKbctKkZn"/>
+</users>
+<groups>
+<group enabled="true" name="sf_all">
+<member username="suzy"/>
+</group>
+<group enabled="true" name="topp_all">
+<member username="anita"/>
+</group>
+<group enabled="true" name="viewers">
+<member username="bob"/>
+</group>
+</groups>
+</userRegistry>
